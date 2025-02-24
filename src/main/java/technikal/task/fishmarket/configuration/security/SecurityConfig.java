@@ -39,13 +39,20 @@ public class SecurityConfig {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		return new InMemoryUserDetailsManager(getAdmin());
+		return new InMemoryUserDetailsManager(getUser(), getAdmin());
+	}
+
+	private UserDetails getUser() {
+		final var passwordEncoder = passwordEncoder();
+		return User.withUsername("user")
+				.password(passwordEncoder.encode("user"))
+				.roles("USER").build();
 	}
 
 	private UserDetails getAdmin() {
 		final var passwordEncoder = passwordEncoder();
 		return User.withUsername("admin")
 				.password(passwordEncoder.encode("admin"))
-				.roles("admin").build();
+				.roles("ADMIN").build();
 	}
 }
