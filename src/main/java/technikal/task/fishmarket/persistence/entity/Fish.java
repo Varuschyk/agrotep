@@ -1,4 +1,4 @@
-package technikal.task.fishmarket.models;
+package technikal.task.fishmarket.persistence.entity;
 
 import java.util.Date;
 

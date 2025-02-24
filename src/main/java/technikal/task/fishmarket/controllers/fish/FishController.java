@@ -1,4 +1,4 @@
-package technikal.task.fishmarket.controllers;
+package technikal.task.fishmarket.controllers.fish;
 
 
 import java.io.InputStream;
@@ -9,7 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,16 +23,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
-import technikal.task.fishmarket.models.Fish;
-import technikal.task.fishmarket.models.FishDto;
-import technikal.task.fishmarket.services.FishRepository;
+import technikal.task.fishmarket.persistence.entity.Fish;
+import technikal.task.fishmarket.dto.fish.FishDto;
+import technikal.task.fishmarket.persistence.repository.FishRepository;
 
 @Controller
 @RequestMapping("/fish")
+@RequiredArgsConstructor
 public class FishController {
-	
-	@Autowired
-	private FishRepository repo;
+
+	private final FishRepository repo;
 	
 	@GetMapping({"", "/"})
 	public String showFishList(Model model) {
