@@ -66,6 +66,7 @@ public class FishServiceImpl implements FishService {
         .images(fishImagesStorageList)
         .name(fishDto.getName())
         .price(fishDto.getPrice())
+        .count(fishDto.getCount())
         .build();
 
     return fishRepository.save(fish);

@@ -17,7 +17,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "fish")
@@ -42,4 +41,6 @@ public class Fish {
 	@Column(name = "image_file_name")
 	List<String> images;
 
+	@Column(name = "count")
+	Integer count;
 }

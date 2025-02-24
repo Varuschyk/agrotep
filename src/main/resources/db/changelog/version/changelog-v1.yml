@@ -33,9 +33,6 @@ databaseChangeLog:
                   type: date
                   constraints:
                     nullable: false
-              - column:
-                  name: images
-                  type: varchar(255)
   - changeSet:
       id: 2
       author: Alexander
@@ -65,8 +62,6 @@ databaseChangeLog:
               - column:
                   name: image_file_name
                   type: varchar(255)
-                  constraints:
-                    nullable: false
   - changeSet:
       id: 3
       author: Alexander
@@ -83,9 +78,6 @@ databaseChangeLog:
             - column:
                 name: catch_date
                 value: "2025-02-24"
-            - column:
-                name: images
-                value: "2025-02-24_1.jpg"
       - insert:
           tableName: fish
           columns:
@@ -98,9 +90,6 @@ databaseChangeLog:
             - column:
                 name: catch_date
                 value: "2025-02-24"
-            - column:
-                name: images
-                value: "2025-02-24_2.jpg"
       - insert:
           tableName: fish
           columns:
@@ -113,9 +102,6 @@ databaseChangeLog:
             - column:
                 name: catch_date
                 value: "2025-02-24"
-            - column:
-                name: images
-                value: "2025-02-24_3.jpg"
   - changeSet:
       id: 4
       author: Alexander

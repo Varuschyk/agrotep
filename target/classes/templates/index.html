@@ -45,6 +45,7 @@
             <th>Ціна</th>
             <th>Дата вилову</th>
             <th>Фото</th>
+            <th>Кількість</th>
             <th></th>
           </tr>
         </thead>
@@ -59,6 +60,9 @@
                 <img th:src="@{'/images/'+${image}}" alt="..." width="100">
               </div>
             </td>
+            <div th:if="${fish.count != null}">
+              <td th:text="${fish.count}"></td>
+            </div>
             <td>
               <div sec:authorize="hasRole('ADMIN')">
                 <a class="btn btn-danger btn-sm" th:href="@{/fish/delete(id=${fish.id})}" onclick="return confirm('Ви впевнені?')">Прибрати</a>
