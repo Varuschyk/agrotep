@@ -1,14 +1,5 @@
 package technikal.task.fishmarket.controllers.fish;
 
-
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Date;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -18,94 +9,46 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.validation.Valid;
-import technikal.task.fishmarket.persistence.entity.Fish;
 import technikal.task.fishmarket.dto.fish.FishDto;
-import technikal.task.fishmarket.persistence.repository.FishRepository;
+import technikal.task.fishmarket.services.fish.FishService;
 
 @Controller
-@RequestMapping("/fish")
 @RequiredArgsConstructor
 public class FishController {
 
-	private final FishRepository repo;
-	
-	@GetMapping({"", "/"})
+	private final FishService fishService;
+
+	@GetMapping({"", "/", "/fish"})
 	public String showFishList(Model model) {
-		List<Fish> fishlist = repo.findAll(Sort.by(Sort.Direction.DESC, "id"));
+		final var fishlist = fishService.get(Sort.by(Sort.Direction.DESC,"id"));
 		model.addAttribute("fishlist", fishlist);
 		return "index";
 	}
 	
-	@GetMapping("/create")
+	@GetMapping("/fish/create")
 	public String showCreatePage(Model model) {
-		FishDto fishDto = new FishDto();
+		final var fishDto = FishDto.builder().build();
 		model.addAttribute("fishDto", fishDto);
 		return "createFish";
 	}
 	
-	@GetMapping("/delete")
+	@GetMapping("/fish/delete")
 	public String deleteFish(@RequestParam int id) {
-		
-		try {
-			
-			Fish fish = repo.findById(id).get();
-			
-			Path imagePath = Paths.get("public/images/"+fish.getImageFileName());
-			Files.delete(imagePath);
-			repo.delete(fish);
-			
-		}catch(Exception ex) {
-			System.out.println("Exception: " + ex.getMessage());
-		}
-		
+		fishService.delete(id);
 		return "redirect:/fish";
 	}
 	
-	@PostMapping("/create")
+	@PostMapping("/fish/create")
 	public String addFish(@Valid @ModelAttribute FishDto fishDto, BindingResult result) {
-		
-		if(fishDto.getImageFile().isEmpty()) {
+		if(fishDto.getImages().isEmpty()) {
 			result.addError(new FieldError("fishDto", "imageFile", "Потрібне фото рибки"));
 		}
-		
 		if(result.hasErrors()) {
 			return "createFish";
 		}
-		
-		MultipartFile image = fishDto.getImageFile();
-		Date catchDate = new Date();
-		String  storageFileName = catchDate.getTime() + "_" + image.getOriginalFilename();
-		
-		try {
-			String uploadDir = "public/images/";
-			Path uploadPath = Paths.get(uploadDir);
-			
-			if(!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
-			
-			try(InputStream inputStream = image.getInputStream()){
-				Files.copy(inputStream, Paths.get(uploadDir+storageFileName), StandardCopyOption.REPLACE_EXISTING);
-			}
-			
-		}catch(Exception ex) {
-			System.out.println("Exception: " + ex.getMessage());
-		}
-		
-		Fish fish = new Fish();
-		
-		fish.setCatchDate(catchDate);
-		fish.setImageFileName(storageFileName);
-		fish.setName(fishDto.getName());
-		fish.setPrice(fishDto.getPrice());
-		
-		repo.save(fish);
-		
+		fishService.create(fishDto);
 		return "redirect:/fish";
 	}
 

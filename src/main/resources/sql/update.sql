@@ -1,1 +1,0 @@
-ALTER TABLE fish ADD COLUMN count INT;

@@ -1,0 +1,149 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Alexander
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: fish
+      changes:
+        - createTable:
+            tableName: fish
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: catch_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: images
+                  type: varchar(255)
+  - changeSet:
+      id: 2
+      author: Alexander
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: fish_images
+      changes:
+        - createTable:
+            tableName: fish_images
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: fish_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_fish_id
+                    references: fish(id)
+              - column:
+                  name: image_file_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 3
+      author: Alexander
+      changes:
+      - insert:
+          tableName: fish
+          columns:
+            - column:
+                name: name
+                value: "Shark"
+            - column:
+                name: price
+                value: "10.0"
+            - column:
+                name: catch_date
+                value: "2025-02-24"
+            - column:
+                name: images
+                value: "2025-02-24_1.jpg"
+      - insert:
+          tableName: fish
+          columns:
+            - column:
+                name: name
+                value: "Salmon"
+            - column:
+                name: price
+                value: "15.0"
+            - column:
+                name: catch_date
+                value: "2025-02-24"
+            - column:
+                name: images
+                value: "2025-02-24_2.jpg"
+      - insert:
+          tableName: fish
+          columns:
+            - column:
+                name: name
+                value: "Tuna"
+            - column:
+                name: price
+                value: "20.0"
+            - column:
+                name: catch_date
+                value: "2025-02-24"
+            - column:
+                name: images
+                value: "2025-02-24_3.jpg"
+  - changeSet:
+      id: 4
+      author: Alexander
+      changes:
+        - insert:
+            tableName: fish_images
+            columns:
+              - column:
+                  name: fish_id
+                  value: "1"
+              - column:
+                  name: image_file_name
+                  value: "2025-02-24_1.jpg"
+        - insert:
+            tableName: fish_images
+            columns:
+              - column:
+                  name: fish_id
+                  value: "2"
+              - column:
+                  name: image_file_name
+                  value: "2025-02-24_2.jpg"
+        - insert:
+            tableName: fish_images
+            columns:
+              - column:
+                  name: fish_id
+                  value: "3"
+              - column:
+                  name: image_file_name
+                  value: "2025-02-24_3.jpg"

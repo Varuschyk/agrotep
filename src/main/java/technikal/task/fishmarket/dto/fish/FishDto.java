@@ -1,36 +1,30 @@
 package technikal.task.fishmarket.dto.fish;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.jackson.Jacksonized;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.Collection;
+
+@Value
+@Builder
+@Jacksonized
+@JsonInclude
+@RequiredArgsConstructor
 public class FishDto {
-	
 
 	@NotEmpty(message = "потрібна назва рибки")
-	private String name;
+	String name;
 	@Min(0)
-	private double price;
-	private MultipartFile imageFile;
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	public MultipartFile getImageFile() {
-		return imageFile;
-	}
-	public void setImageFile(MultipartFile imageFile) {
-		this.imageFile = imageFile;
-	}
+	double price;
+	Collection<MultipartFile> images;
 
 }

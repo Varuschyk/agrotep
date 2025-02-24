@@ -30,7 +30,8 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(@Nonnull final HttpSecurity http) throws Exception {
 		return http.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/register", "/login").permitAll().anyRequest().authenticated())
+						.requestMatchers("/register", "/login", "/fish", "/", "/images/**")
+						.permitAll().anyRequest().authenticated())
 				.formLogin(form ->
 						form.permitAll().defaultSuccessUrl("/fish"))
 				.logout(LogoutConfigurer::permitAll).build();
@@ -38,20 +39,13 @@ public class SecurityConfig {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		return new InMemoryUserDetailsManager(getUser(), getOwner());
+		return new InMemoryUserDetailsManager(getAdmin());
 	}
 
-	private UserDetails getUser() {
+	private UserDetails getAdmin() {
 		final var passwordEncoder = passwordEncoder();
-		return User.withUsername("user")
-				.password(passwordEncoder.encode("user"))
-				.roles("USER").build();
-	}
-
-	private UserDetails getOwner() {
-		final var passwordEncoder = passwordEncoder();
-		return User.withUsername("owner")
-				.password(passwordEncoder.encode("owner"))
-				.roles("OWNER").build();
+		return User.withUsername("admin")
+				.password(passwordEncoder.encode("admin"))
+				.roles("admin").build();
 	}
 }

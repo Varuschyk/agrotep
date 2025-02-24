@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: Alexander
+      changes:
+        - addColumn:
+            tableName: fish
+            columns:
+              - column:
+                  name: count
+                  type: integer
