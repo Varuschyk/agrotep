@@ -4,7 +4,7 @@
 
 ---
 
-Moved fish creation login into separated `FishService` and improve implementation. Sure, [index.html](src/main/resources/templates/index.html)
+Moved fish creation business logic into separated `FishService` and improve implementation. Sure, [index.html](src/main/resources/templates/index.html)
 edited too.
 
 
@@ -32,7 +32,7 @@ and adds column `count`.
 
 After that change we can add new column in [Fish.java](src/main/java/technikal/task/fishmarket/persistence/entity/Fish.java) entity
 for consistency schema and our java object. Also, we need to implement new logic with that new field. For that I simply
-initialize that field by creation new `fish`. But, for best practice we should implement `FishServiceV2Impl`. And add new
+initialize that field by creation new `fish`. But, for best practice we should implement `FishServiceV2Impl`. And improve
 UI representation in [index.html](src/main/resources/templates/index.html).
 
 
